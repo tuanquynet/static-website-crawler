@@ -1,0 +1,28 @@
+{
+  "name": "static-website-crawler",
+  "version": "1.0.0",
+  "description": "static site crawler",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tuanquynet/static-website-crawler.git"
+  },
+  "keywords": [
+    "web",
+    "crawler"
+  ],
+  "author": "quy tran",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tuanquynet/static-website-crawler/issues"
+  },
+  "homepage": "https://github.com/tuanquynet/static-website-crawler#readme",
+  "dependencies": {
+    "css-tree": "^1.0.0-alpha.29",
+    "mkdirp": "^0.5.1",
+    "supercrawler": "^1.7.0"
+  }
+}
