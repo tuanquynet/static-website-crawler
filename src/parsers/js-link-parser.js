@@ -1,44 +1,33 @@
-var cheerio = require("cheerio"),
-    urlMod = require("url");
+const cheerio = require('cheerio');
+const urlMod = require('url');
 
-module.exports = function (opts) {
+module.exports = (opts) => {
   if (!opts) {
     opts = {};
   }
 
   if (!opts.urlFilter) {
-    opts.urlFilter = function () {
-      return true;
-    };
+    opts.urlFilter = () => true;
   }
 
-  return function (context) {
-    var $;
 
-    $ = context.$ || cheerio.load(context.body);
+  return (context) => {
+    const $ = context.$ || cheerio.load(context.body);
     context.$ = $;
 
-    return $("script[src]").map(function () {
-      var $this,
-          targetHref,
-          absoluteTargetUrl,
-          urlObj,
-          protocol,
-          hostname;
+    return $('script[src]').map(function mapCallback() {
+      const $this = $(this);
+      const targetHref = $this.attr('src');
+      const absoluteTargetUrl = urlMod.resolve(context.url, targetHref);
+      const urlObj = urlMod.parse(absoluteTargetUrl);
+      const { protocol, hostname } = urlObj;
 
-      $this = $(this);
-      targetHref = $this.attr("src");
-      absoluteTargetUrl = urlMod.resolve(context.url, targetHref);
-      urlObj = urlMod.parse(absoluteTargetUrl);
-      protocol = urlObj.protocol;
-      hostname = urlObj.hostname;
-
-      if (protocol !== "http:" && protocol !== "https:") {
+      if (protocol !== 'http:' && protocol !== 'https:') {
         return null;
       }
 
       // Restrict links to a particular group of hostnames.
-      if (typeof opts.hostnames !== "undefined") {
+      if (typeof opts.hostnames !== 'undefined') {
         if (opts.hostnames.indexOf(hostname) === -1) {
           return null;
         }
@@ -49,10 +38,8 @@ module.exports = function (opts) {
         auth: urlObj.auth,
         host: urlObj.host,
         pathname: urlObj.pathname,
-        search: urlObj.search
+        search: urlObj.search,
       });
-    }).get().filter(function (url) {
-      return opts.urlFilter(url, context.url);
-    });
+    }).get().filter(url => opts.urlFilter(url, context.url));
   };
 };

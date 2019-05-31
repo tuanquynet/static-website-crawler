@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/tuanquynet/static-website-crawler#readme",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.3",
     "css-tree": "^1.0.0-alpha.29",
     "mkdirp": "^0.5.1",
     "request": "^2.88.0",

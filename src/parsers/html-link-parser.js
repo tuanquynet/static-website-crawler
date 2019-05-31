@@ -7,16 +7,14 @@ module.exports = (opts) => {
   }
 
   if (!opts.urlFilter) {
-    opts.urlFilter = function () {
-      return true;
-    };
+    opts.urlFilter = () => true;
   }
 
   return (context) => {
     const $ = context.$ || cheerio.load(context.body);
     context.$ = $;
 
-    return $('link[href]').map(function mapCallback() {
+    return $('a[href], link[href][rel=alternate], area[href]').map(function mapCallback() {
       const $this = $(this);
       const targetHref = encodeURI($this.attr('href').trim());
       const absoluteTargetUrl = urlMod.resolve(context.url, targetHref);
