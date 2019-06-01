@@ -10,6 +10,7 @@ const cssLinkParser = require('../parsers/css-link-parser');
 const jsLinkParser = require('../parsers/js-link-parser');
 const cssContentParser = require('../parsers/css-content-parser');
 const inlineImageParser = require('../parsers/inline-image-parser');
+const htmlLinkParser = require('../parsers/html-link-parser');
 
 
 const siteUrl = 'goalify.plus';
@@ -34,7 +35,7 @@ crawler.on('handlersError', (err) => {
   console.error(err);
 });
 
-crawler.addHandler('text/html', supercrawler.handlers.htmlLinkParser({
+crawler.addHandler('text/html', htmlLinkParser({
   hostnames: [siteUrl],
 }));
 
